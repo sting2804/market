@@ -38,7 +38,7 @@ public class Review {
     /**
      * текст комментария, не больше 1000 символов
      */
-    @NotNull
+    @Column(nullable = false)
     @Size(max = 1000)
     private String text;
 

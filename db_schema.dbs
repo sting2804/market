@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Postgres" id="Project_3b47e63" html="y" template="Default" database="PostgreSQL" >
+	<schema name="public" catalogname="sting" schemaname="public" >
+		<table name="cart" >
+			<comment><![CDATA[корзина пользователя. Для восстановления добавленных товаров после окончания сессии]]></comment>
+			<column name="product_id" type="integer" jt="4" mandatory="y" />
+			<column name="product_number" type="integer" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="user_id" type="integer" jt="4" mandatory="y" />
+			<index name="idx_cart" unique="NORMAL" >
+				<column name="product_id" />
+			</index>
+			<index name="idx_cart_0" unique="NORMAL" >
+				<column name="user_id" />
+			</index>
+			<index name="pk_cart" unique="PRIMARY_KEY" >
+				<column name="product_id" />
+				<column name="user_id" />
+			</index>
+			<fk name="fk_cart-product" to_schema="public" to_table="product" >
+				<fk_column name="product_id" pk="id" />
+			</fk>
+			<fk name="fk_cart-user" to_schema="public" to_table="user" >
+				<fk_column name="user_id" pk="id" />
+			</fk>
+		</table>
+		<table name="category" >
+			<comment><![CDATA[категории товаров. в одной категории может быть много товаров, один товар может быть в некольких категориях.]]></comment>
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="255" jt="12" mandatory="y" >
+				<comment><![CDATA[название категории]]></comment>
+			</column>
+			<column name="description" type="varchar" length="500" jt="12" >
+				<comment><![CDATA[опиание категории. Не обязательно]]></comment>
+			</column>
+			<index name="pk_category" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="gallery" >
+			<comment><![CDATA[url's of pictures for the product]]></comment>
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="url" type="varchar" length="1000" jt="12" mandatory="y" />
+			<column name="description" type="varchar" length="1000" jt="12" />
+			<index name="pk_gallery" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="product" >
+			<comment><![CDATA[информация о товаре. Начилие, название, описание, количество]]></comment>
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="version" type="integer" length="10" decimal="0" jt="4" />
+			<column name="name" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
+			<column name="description" type="varchar" length="1000" decimal="0" jt="12" mandatory="y" />
+			<column name="_number" type="integer" jt="4" mandatory="y" >
+				<defo>0</defo>
+				<comment><![CDATA[количество единици товара в наличии]]></comment>
+			</column>
+			<column name="is_available" type="bool" jt="-7" mandatory="y" >
+				<defo>false</defo>
+			</column>
+			<index name="product_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="product_category" >
+			<column name="product_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="category_id" type="integer" length="10" decimal="0" jt="4" mandatory="y" />
+			<index name="product_category_id" unique="PRIMARY_KEY" >
+				<column name="product_id" />
+				<column name="category_id" />
+			</index>
+			<index name="idx_product_category" unique="NORMAL" >
+				<column name="category_id" />
+			</index>
+			<index name="idx_product_category_0" unique="NORMAL" >
+				<column name="product_id" />
+			</index>
+			<fk name="fk_product_category-category" to_schema="public" to_table="category" >
+				<fk_column name="category_id" pk="id" />
+			</fk>
+			<fk name="fk_product_category-product" to_schema="public" to_table="product" >
+				<fk_column name="product_id" pk="id" />
+			</fk>
+		</table>
+		<table name="product_gallery" >
+			<comment><![CDATA[отношение между галереей и]]></comment>
+			<column name="product_id" type="integer" jt="4" mandatory="y" />
+			<column name="gallery_id" type="integer" jt="4" mandatory="y" />
+			<index name="pk_product_gallery_0" unique="UNIQUE" >
+				<column name="product_id" />
+			</index>
+			<index name="idx_product_gallery" unique="NORMAL" >
+				<column name="gallery_id" />
+			</index>
+			<index name="pk_product_gallery" unique="PRIMARY_KEY" >
+				<column name="product_id" />
+				<column name="gallery_id" />
+			</index>
+			<fk name="fk_product_gallery-product" to_schema="public" to_table="product" >
+				<fk_column name="product_id" pk="id" />
+			</fk>
+			<fk name="fk_product_gallery-gallery" to_schema="public" to_table="gallery" >
+				<fk_column name="gallery_id" pk="id" />
+			</fk>
+		</table>
+		<table name="review" >
+			<comment><![CDATA[отзывы к товару. У одного товара много отзывов от разных пользователей. Так же может быть много отзывов от одного пользователя. Отзыв может быть вложенный.]]></comment>
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="parent_review" type="integer" jt="4" >
+				<comment><![CDATA[ссылка на родительский отзыв, для организации иерархии]]></comment>
+			</column>
+			<column name="text" type="varchar" length="500" jt="12" mandatory="y" >
+				<comment><![CDATA[сообщение пользователя]]></comment>
+			</column>
+			<column name="product_id" type="integer" jt="4" mandatory="y" >
+				<comment><![CDATA[отзыв должен принадлежать какому-то товару]]></comment>
+			</column>
+			<column name="user_id" type="integer" jt="4" >
+				<comment><![CDATA[отзыв можен принадлежать или не принадлежать зарегистрированному пользователю]]></comment>
+			</column>
+			<column name="showed_name" type="varchar" length="50" jt="12" >
+				<defo>&#039;no_name&#039;</defo>
+				<comment><![CDATA[имя пользователя для отображения. Записывать логин пользователя, если он авторизирован; вводить имя, если пользователь его указал и подставлять no_name в остальных случаях.]]></comment>
+			</column>
+			<index name="pk_review" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_review" unique="NORMAL" >
+				<column name="parent_review" />
+			</index>
+			<index name="idx_review_0" unique="NORMAL" >
+				<column name="product_id" />
+			</index>
+			<index name="idx_review_1" unique="NORMAL" >
+				<column name="user_id" />
+			</index>
+			<fk name="fk_review-parent_review" to_schema="public" to_table="review" >
+				<fk_column name="parent_review" pk="id" />
+			</fk>
+			<fk name="fk_review-product" to_schema="public" to_table="product" >
+				<fk_column name="product_id" pk="id" />
+			</fk>
+			<fk name="fk_review-user" to_schema="public" to_table="user" >
+				<fk_column name="user_id" pk="id" />
+			</fk>
+		</table>
+		<table name="role" >
+			<comment><![CDATA[роли, имеющиеся в системе]]></comment>
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="role_name" type="varchar" length="100" jt="12" mandatory="y" />
+			<index name="pk_role" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="user" >
+			<comment><![CDATA[пользователь системы]]></comment>
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="username" type="varchar" length="50" jt="12" mandatory="y" />
+			<column name="passwd" type="varchar" length="50" jt="12" mandatory="y" />
+			<index name="pk_user" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="user_role" >
+			<column name="user_id" type="integer" jt="4" mandatory="y" />
+			<column name="role_id" type="integer" jt="4" mandatory="y" />
+			<index name="idx_user_role" unique="NORMAL" >
+				<column name="user_id" />
+			</index>
+			<index name="idx_user_role_0" unique="NORMAL" >
+				<column name="role_id" />
+			</index>
+			<index name="pk_user_role" unique="PRIMARY_KEY" >
+				<column name="user_id" />
+				<column name="role_id" />
+			</index>
+			<fk name="fk_user_role-user" to_schema="public" to_table="user" >
+				<fk_column name="user_id" pk="id" />
+			</fk>
+			<fk name="fk_user_role-role" to_schema="public" to_table="role" >
+				<fk_column name="role_id" pk="id" />
+			</fk>
+		</table>
+		<sequence name="cart_id_seq" start="1" />
+		<sequence name="category_id_seq" start="1" />
+		<sequence name="gallery_id_seq" start="1" />
+		<sequence name="product_gallery_id_seq" start="1" />
+		<sequence name="product_id_seq" start="1" />
+		<sequence name="review_id_seq" start="1" />
+		<sequence name="role_id_seq" start="1" />
+		<sequence name="user_id_seq" start="1" />
+		<sequence name="user_role_id_seq" start="1" />
+	</schema>
+	<connector name="Postgres" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-9.4-1203.jdbc42.jar" host="localhost" port="5432" instance="sting" user="sting" passwd="Z2hzZXI=" schema_mapping="" />
+	<layout id="Layout_13a6386b" name="public" show_relation_columns="y" >
+		<entity schema="public" name="product" color="c8f5bf" x="60" y="45" />
+		<entity schema="public" name="product_category" color="c8f5bf" x="210" y="45" />
+		<entity schema="public" name="category" color="c8f5bf" x="405" y="45" />
+		<entity schema="public" name="product_gallery" color="f5ddbf" x="45" y="255" />
+		<entity schema="public" name="gallery" color="f5ddbf" x="60" y="375" />
+		<entity schema="public" name="review" color="bfd4f5" x="570" y="90" />
+		<entity schema="public" name="user" color="bfd4f5" x="435" y="210" />
+		<entity schema="public" name="user_role" color="bfd4f5" x="450" y="345" />
+		<entity schema="public" name="role" color="bfd4f5" x="615" y="345" />
+		<entity schema="public" name="cart" color="bfd4f5" x="225" y="210" />
+		<script name="Sql" id="SQL_67665d8" >
+			<string><![CDATA[create table product_category(
+product_id integer not null,
+category_id integer not null,
+constraint product_category_id primary key(product_id,category_id)
+)]]></string>
+		</script>
+		<browser id="Browse_379b90f8" name="gallery" >
+			<browse_table schema="public" entity="gallery" x="10" y="10" width="451" height="347" />
+		</browser>
+	</layout>
+</project>

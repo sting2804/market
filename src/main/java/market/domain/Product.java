@@ -43,13 +43,13 @@ public class Product {
      * наименование товара
      */
     @Size(max = 255)
-    @NotNull
+    @Column(nullable = false)
     private String name;
     /**
      * описание товара
      */
     @Size(max = 1000)
-    @NotNull
+    @Column(nullable = false)
     private String description;
     private Integer number;
     private boolean isAvailable;

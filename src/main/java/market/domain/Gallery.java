@@ -27,7 +27,7 @@ public class Gallery {
      * относительная ссылка на изображение. Максимум 1000 символов
      */
     @Size(max = 1000)
-    @NotNull
+    @Column(nullable = false)
     private String url;
     /**
      * краткое описание на случай неудачной загрузки картинки
