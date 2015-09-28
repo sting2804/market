@@ -1,7 +1,7 @@
 package market.repository;
 
 import market.domain.Review;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface ReviewRepository extends Repository<Review, Long> {
+public interface ReviewRepository extends CrudRepository<Review, Long> {
 }

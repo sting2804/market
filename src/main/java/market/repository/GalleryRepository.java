@@ -2,7 +2,7 @@ package market.repository;
 
 
 import market.domain.Gallery;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface GalleryRepository extends Repository<Gallery, Long> {
+public interface GalleryRepository extends CrudRepository<Gallery, Long> {
 }

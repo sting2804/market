@@ -1,7 +1,7 @@
 package market.repository;
 
 import market.domain.Product;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface ProductRepository extends Repository<Product, Long> {
+public interface ProductRepository extends CrudRepository<Product, Long> {
 }
