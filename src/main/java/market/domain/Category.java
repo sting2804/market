@@ -29,7 +29,7 @@ public class Category{
      * название категории. Максимум 255 символов. Обязательное поле
      */
     @Size(max = 255)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
     /**
      * описание категории, не обязательное поле
