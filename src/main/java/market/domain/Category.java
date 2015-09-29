@@ -1,7 +1,8 @@
 package market.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +11,8 @@ import java.util.Set;
  * категория товаров
  */
 @Entity
-public class Category {
+@JsonSerialize
+public class Category{
 
     /**
      * список продуктов в данной категории

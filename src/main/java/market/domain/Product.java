@@ -1,7 +1,6 @@
 package market.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,7 +16,7 @@ public class Product {
     @ManyToMany
     @JoinTable(
             name = "product_gallery",
-            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "code")},
             inverseJoinColumns = {@JoinColumn(name = "gallery_id", referencedColumnName = "id")}
     )
     private Set<Gallery> galleries = new HashSet<>();
@@ -25,7 +24,7 @@ public class Product {
     @ManyToMany
     @JoinTable(
             name = "product_category",
-            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "code")},
             inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
     )
     private Set<Category> categories = new HashSet<>();
