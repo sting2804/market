@@ -18,7 +18,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management' 
 
 jar {
-    baseName = 'market'
+    baseName = 'com.bdls.market'
     version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.8
@@ -40,6 +40,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-social-facebook")
     compile("org.springframework.boot:spring-boot-starter-social-twitter")
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("com.zaxxer:HikariCP")
     runtime("org.postgresql:postgresql:9.4-1201-jdbc41")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

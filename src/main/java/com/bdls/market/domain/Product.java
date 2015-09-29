@@ -1,4 +1,4 @@
-package market.domain;
+package com.bdls.market.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;

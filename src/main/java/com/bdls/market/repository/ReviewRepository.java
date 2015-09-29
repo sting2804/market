@@ -1,6 +1,6 @@
-package market.repository;
+package com.bdls.market.repository;
 
-import market.domain.Review;
+import com.bdls.market.domain.Review;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

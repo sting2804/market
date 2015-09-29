@@ -1,4 +1,4 @@
-package market.domain;
+package com.bdls.market.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

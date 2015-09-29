@@ -1,7 +1,7 @@
-package market.resource;
+package com.bdls.market.resource;
 
-import market.controller.CategoryController;
-import market.domain.Category;
+import com.bdls.market.controller.CategoryController;
+import com.bdls.market.domain.Category;
 import org.springframework.hateoas.ResourceSupport;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;

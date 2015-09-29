@@ -1,10 +1,10 @@
-package market.controller;
+package com.bdls.market.controller;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import market.MarketApplication;
-import market.domain.Category;
-import market.repository.CategoryRepository;
+import com.bdls.market.MarketApplication;
+import com.bdls.market.domain.Category;
+import com.bdls.market.repository.CategoryRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

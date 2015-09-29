@@ -1,4 +1,4 @@
-package market;
+package com.bdls.market;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

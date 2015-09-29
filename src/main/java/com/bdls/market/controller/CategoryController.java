@@ -1,11 +1,10 @@
-package market.controller;
+package com.bdls.market.controller;
 
-import market.domain.Category;
-import market.repository.CategoryRepository;
-import market.resource.CategoryResource;
+import com.bdls.market.domain.Category;
+import com.bdls.market.repository.CategoryRepository;
+import com.bdls.market.resource.CategoryResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

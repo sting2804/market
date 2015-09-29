@@ -1,7 +1,7 @@
-package market.repository;
+package com.bdls.market.repository;
 
 
-import market.domain.Category;
+import com.bdls.market.domain.Category;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

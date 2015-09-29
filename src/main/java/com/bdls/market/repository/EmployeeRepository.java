@@ -1,7 +1,7 @@
-package market.repository;
+package com.bdls.market.repository;
 
 
-import market.domain.Employee;
+import com.bdls.market.domain.Employee;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
