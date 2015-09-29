@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
@@ -33,19 +30,11 @@ public class CategoryController {
         return categoryRepository.findOne(id);
     }
 
-    @RequestMapping(value = "?name&description",method = RequestMethod.POST)
-    ResponseEntity<?> create(@PathVariable String name, @PathVariable String description){
-        return this.categoryRepository
-                .findAllByName(name)
-                .map(category -> {
-                    Category result = categoryRepository.save(new Category(name, description));
-
-                    HttpHeaders httpHeaders = new HttpHeaders();
-                    httpHeaders.setLocation(ServletUriComponentsBuilder
-                            .fromCurrentRequest().path("/{id}")
-                            .buildAndExpand(result.getId()).toUri());
-                    return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
-                }).get();
+    @RequestMapping(method = RequestMethod.POST)
+    ResponseEntity<?> create(@RequestParam("name") String name, @RequestParam(value = "description", required = false) String description){
+        Category result = categoryRepository.save(new Category(name, description));
+        HttpHeaders httpHeaders = new HttpHeaders();
+        return new ResponseEntity<>(result, httpHeaders, HttpStatus.CREATED);
     }
 
 }
