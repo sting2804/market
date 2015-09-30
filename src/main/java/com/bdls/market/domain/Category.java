@@ -56,7 +56,6 @@ public class Category extends ResourceSupport{
     public Category(String name, String description) {
         this.name = name;
         this.description = description;
-        this.add(linkTo(methodOn(CategoryController.class).readCategoryById(getObjectId())).withSelfRel());
     }
 
     @JsonProperty("id")

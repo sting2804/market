@@ -82,7 +82,7 @@ public class CategoryControllerTest extends TestCase {
                 + this.category.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$.id", is(this.category.getId().longValue())))
+                .andExpect(jsonPath("$.id", is(this.category.getObjectId().longValue())))
                 .andExpect(jsonPath("$.version", is(this.category.getVersion().intValue())))
                 .andExpect(jsonPath("$.name", is("name")))
                 .andExpect(jsonPath("$.description", is("description")));
@@ -94,11 +94,11 @@ public class CategoryControllerTest extends TestCase {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id", is(this.categoryList.get(0).getId().longValue())))
+                .andExpect(jsonPath("$[0].id", is(this.categoryList.get(0).getObjectId().longValue())))
                 .andExpect(jsonPath("$[0].version", is(this.categoryList.get(0).getVersion().intValue())))
                 .andExpect(jsonPath("$[0].name", is("name")))
                 .andExpect(jsonPath("$[0].description", is("description")))
-                .andExpect(jsonPath("$[1].id", is(this.categoryList.get(1).getId().longValue())))
+                .andExpect(jsonPath("$[1].id", is(this.categoryList.get(1).getObjectId().longValue())))
                 .andExpect(jsonPath("$[1].version", is(this.categoryList.get(1).getVersion().intValue())))
                 .andExpect(jsonPath("$[1].name", is("name2")))
                 .andExpect(jsonPath("$[1].description", isEmptyOrNullString()));

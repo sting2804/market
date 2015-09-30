@@ -16,6 +16,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
@@ -28,17 +31,20 @@ public class CategoryController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Resources<CategoryResource> readCategories(){
-        List<CategoryResource> categoryResourceList = ((Collection<Category>)categoryRepository.findAll())
+    public Resources<Category> readCategories(){
+        List<Category> categoryList = ((List<Category>) categoryRepository.findAll())
                     .stream()
-                    .map(CategoryResource::new)
+                    .map(category -> {category.add(linkTo(methodOn(CategoryController.class).readCategoryById(category.getObjectId())).withSelfRel()); return category;})
                     .collect(Collectors.toList());
-        return new Resources<>(categoryResourceList);
+        Link categoryLink = linkTo(CategoryController.class).withSelfRel();
+        return new Resources<>(categoryList, categoryLink);
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public CategoryResource readCategoryById(@PathVariable Long id){
-        return new CategoryResource(categoryRepository.findOne(id));
+    public Category readCategoryById(@PathVariable Long id){
+        Category category = categoryRepository.findOne(id);
+        category.add(linkTo(methodOn(CategoryController.class).readCategoryById(id)).withSelfRel());
+        return category;
     }
 
     @RequestMapping(method = RequestMethod.POST)
