@@ -18,9 +18,9 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-//@EnableTransactionManagement
+@EnableTransactionManagement
 @EnableJpaRepositories(basePackageClasses = MarketApplication.class)
-public class DataSourceConfig {//implements TransactionManagementConfigurer {
+public class DataSourceConfig implements TransactionManagementConfigurer {
 
         @Value("${spring.datasource.username}")
         private String user;
@@ -46,23 +46,23 @@ public class DataSourceConfig {//implements TransactionManagementConfigurer {
                 return new HikariDataSource(config);
         }
 
-        /*@Bean
+        @Bean(name = "entityManagerFactory")
         public LocalContainerEntityManagerFactoryBean configureEntityManagerFactory() {
-                LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-                entityManagerFactoryBean.setDataSource(configureDataSource());
-                entityManagerFactoryBean.setPackagesToScan("com.bdls.market");
-                entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+                LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+                entityManagerFactory.setDataSource(configureDataSource());
+                entityManagerFactory.setPackagesToScan("com.bdls.market");
+                entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
                 Properties jpaProperties = new Properties();
                 jpaProperties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
                 jpaProperties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, hbm2ddlAuto);
-                entityManagerFactoryBean.setJpaProperties(jpaProperties);
+                entityManagerFactory.setJpaProperties(jpaProperties);
 
-                return entityManagerFactoryBean;
+                return entityManagerFactory;
         }
 
         @Bean
         public PlatformTransactionManager annotationDrivenTransactionManager() {
                 return new JpaTransactionManager();
-        }*/
+        }
 }

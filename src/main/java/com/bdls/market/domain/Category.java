@@ -1,18 +1,26 @@
 package com.bdls.market.domain;
 
+import com.bdls.market.controller.CategoryController;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 /**
  * категория товаров
  */
 @Entity
 @JsonSerialize
-public class Category{
+public class Category extends ResourceSupport{
 
     /**
      * список продуктов в данной категории
@@ -44,13 +52,15 @@ public class Category{
         name = null;
         description = null;
     }
-
+    @JsonCreator
     public Category(String name, String description) {
         this.name = name;
         this.description = description;
+        this.add(linkTo(methodOn(CategoryController.class).readCategoryById(getObjectId())).withSelfRel());
     }
 
-    public Long getId() {
+    @JsonProperty("id")
+    public Long getObjectId(){
         return id;
     }
 
